@@ -1,0 +1,44 @@
+version: '3'
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: periferiait_carrito_compras
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - red-principal
+
+  api-pdf:
+    container_name: api-pdf-prd
+    image: php:8.2.17-apache
+    restart: always
+    volumes:
+      - ./_docker/_docker/apache2.conf:/etc/apache2/apache2.conf
+      - ./_docker/_docker/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./:/var/www/html
+    ports:
+      - 80:80
+    command: >
+      bash -c 'echo "paso 1/8" && apt-get update && apt-get install -y libzip-dev zip libonig-dev libpng-dev
+      && echo "paso 2/8" && docker-php-ext-install pdo_mysql && docker-php-ext-install zip && docker-php-ext-install mbstring && docker-php-ext-install gd
+      && echo "paso 3/8" && curl -sS https://getcomposer.org/installer -o composer-setup.php && HASH=`curl -sS https://composer.github.io/installer.sig`
+      && echo "paso 4/8" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+      && echo "paso 5/8" && if ! a2query -m rewrite | grep -q 'enabled'; then a2enmod rewrite; fi
+      && echo "paso 6/8" && chmod 777 -R /var/www/html/storage/
+      && echo "paso 7/8" && cd /var/www/html && composer install --no-interaction --prefer-dist --no-dev
+      && echo "paso 8/8" && /usr/local/bin/docker-php-entrypoint apache2-foreground'
+    networks:
+      - red-principal
+
+networks:
+  red-principal:
+    name: red-principal
