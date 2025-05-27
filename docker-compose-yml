@@ -17,8 +17,8 @@ services:
     networks:
       - red-principal
 
-  api-pdf:
-    container_name: api-pdf-prd
+  api:
+    container_name: api
     image: php:8.2.17-apache
     restart: always
     volumes:
