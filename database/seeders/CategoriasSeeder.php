@@ -17,6 +17,8 @@ class CategoriasSeeder extends Seeder
             ['nombre' => 'Electrónica'],
             ['nombre' => 'Ropa'],
             ['nombre' => 'Alimentos'],
+            ['nombre' => 'Hogar'],
+            ['nombre' => 'Deportes'],
         ]);
     }
 }

@@ -15,6 +15,7 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name',
         'email',
+        'flag_admin',
         'password',
     ];
 
@@ -26,6 +27,7 @@ class User extends Authenticatable implements JWTSubject
     protected function casts(): array
     {
         return [
+            'flag_admin' => 'boolean',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];

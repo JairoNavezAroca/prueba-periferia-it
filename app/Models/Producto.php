@@ -16,8 +16,8 @@ class Producto extends Model
     protected $primaryKey = 'id';
 
     // Campos que se pueden asignar masivamente
-    protected $fillable = ['nombre', 'stock', 'precio', 'categoria_id'];
-    
+    protected $fillable = ['nombre', 'descripcion', 'stock', 'precio', 'imagen_url', 'categoria_id'];
+
     protected $casts = [
         'precio' => 'decimal:2',
     ];

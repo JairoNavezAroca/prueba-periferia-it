@@ -20,9 +20,12 @@ class ProductoController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:255',
             'stock' => 'required|integer|min:0',
-            'precio' => 'precio|float|min:0',
-            'id_categoria' => 'required|exists:categorias,id',
+            // 'precio' => 'required|decimal:2|min:0',
+            'precio' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:0'],
+            'imagen_url' => 'required|string|max:255',
+            'categoria_id' => 'required|exists:categorias,id',
         ]);
 
         $producto = Producto::create($request->all());
@@ -43,9 +46,12 @@ class ProductoController extends Controller
 
         $request->validate([
             'nombre' => 'sometimes|required|string|max:255',
+            'descripcion' => 'sometimes|required|string|max:255',
             'stock' => 'sometimes|required|integer|min:0',
-            'precio' => 'precio|float|min:0',
-            'id_categoria' => 'sometimes|required|exists:categorias,id',
+            // 'precio' => 'required|decimal:2|min:0',
+            'precio' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'min:0'],
+            'imagen_url' => 'sometimes|required|string|max:255',
+            'categoria_id' => 'sometimes|required|exists:categorias,id',
         ]);
 
         $producto->update($request->all());
